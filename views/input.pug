@@ -1,0 +1,12 @@
+block content
+  .row
+    .large-12.columns
+      h1 Module Feedback Page
+  .row
+    .large-6.columns
+      //- QUE_CODE: '2.5',
+      //- QUE_NAME: 'Feedback within 3 weeks',
+      //- QUE_TEXT: 'Feedback was provided within three weeks of submission.',
+      //- CAT_NAME: 'Assessment and Feedback'
+      each q in data.questions
+        p= `${q.QUE_CODE}: ${QUE_TEXT}`
