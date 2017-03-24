@@ -1,12 +1,29 @@
+extends layout
+
+block extrajs
+  script.
+    data=!{JSON.stringify(data)};
+
 block content
   .row
     .large-12.columns
-      h1 Module Feedback Page
-  .row
-    .large-6.columns
-      //- QUE_CODE: '2.5',
-      //- QUE_NAME: 'Feedback within 3 weeks',
-      //- QUE_TEXT: 'Feedback was provided within three weeks of submission.',
-      //- CAT_NAME: 'Assessment and Feedback'
-      each q in data.questions
-        p= `${q.QUE_CODE}: ${QUE_TEXT}`
+      h1.text-center Module Feedback Page
+      p.callout.text-center Moving the top slider the will move all sliders in a category, so start there
+  .row.expanded
+    .large-12.columns
+      .row.expanded
+        each cat, code in data.questions
+          .large-3.columns
+            h4.category= `${code}: ${cat.name}`
+            .range.range-primary.cat-slider
+                input.question(type="range" step="1" value="3" min="1" max="5")
+                //- By default the answer is neutral
+                output= data.topAnswers[2]
+            button.button(type="button" data-toggle=`expand-${code}`) Expand
+            .dropdown-pane(id=`expand-${code}`, data-dropdown, data-auto-focus="true")
+              each q in cat.questions
+                p= `${q.code}: ${q.text}`
+                .range.range-primary.q-slider
+                  input.question(type="range" step="1" value="3" min="1" max="5")
+                  //- By default the answer is neutral
+                  output= data.answers[2]
