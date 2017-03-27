@@ -2,6 +2,29 @@
     display: none;
 }
 
+.category{
+ transition: all 100ms linear;
+}
+
+#submit{
+    position: fixed;
+    top: 10%;
+    right: 10%;
+}
+
+#submit i.fa{
+    padding-right: 10px;
+}
+
+#submit.success, #submit.alert{
+    color: #fff;
+}
+
+.category.active{
+    background-color: #5B84A1;
+    color: #FFF;
+}
+
 
 /* SLIDERS START */
 .range {
