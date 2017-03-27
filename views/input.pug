@@ -8,22 +8,28 @@ block content
   .row
     .large-12.columns
       h1.text-center Module Feedback Page
-      p.callout.text-center Moving the top slider the will move all sliders in a category, so start there
-  .row.expanded
+      p.callout.danger.text-center#no-js Javascript is disabled, the values in the sliders will change but the text will not!
+  #main-row.row
     .large-12.columns
       .row.expanded
-        each cat, code in data.questions
-          .large-3.columns
-            h4.category= `${code}: ${cat.name}`
-            .range.range-primary.cat-slider
-                input.question(type="range" step="1" value="3" min="1" max="5")
-                //- By default the answer is neutral
-                output= data.topAnswers[2]
-            button.button(type="button" data-toggle=`expand-${code}`) Expand
-            .dropdown-pane(id=`expand-${code}`, data-dropdown, data-auto-focus="true")
+        nav#cat-nav.large-3.large-offset-1.small-12.columns.hide
+          each cat, code in data.questions
+            .large-12.columns.callout.category
+              .column
+                h5.text-center= `${code}: ${cat.name}`
+                .range.range-primary.cat-slider
+                    input.question(id=`q-list-${code}`,type="range" step="1" value="3" min="1" max="5")
+                    //- By default the answer is neutral
+                    output= data.topAnswers[2]
+        #q-container.large-12.small-12.columns       
+          //- button.button(type="button" data-toggle=`expand-${code}`) Expand
+          //- .dropdown-pane(id=`expand-${code}`, data-dropdown, data-auto-focus="true")
+          each cat, code in data.questions
+            .q-list.row.large-up-3.medium-up-2.small-up-1.callout(id=`q-list-${code}`)
               each q in cat.questions
-                p= `${q.code}: ${q.text}`
-                .range.range-primary.q-slider
-                  input.question(type="range" step="1" value="3" min="1" max="5")
-                  //- By default the answer is neutral
-                  output= data.answers[2]
+                .column
+                  p= `${q.code}: ${q.text}`
+                  .range.range-primary.q-slider
+                    input.question(type="range" step="1" value="3" min="1" max="5")
+                    //- By default the answer is neutral
+                    output= data.answers[2]
