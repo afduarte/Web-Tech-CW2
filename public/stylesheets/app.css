@@ -1,3 +1,14 @@
+#title{
+    font-size: 2rem;
+    background-color: #d10039;
+    line-height: 4.5rem;
+    color: #FFF; 
+}
+#title-row div{
+    padding-right: 0;
+    padding-left: 0;
+}
+
 .hide{
     display: none;
 }
@@ -6,10 +17,14 @@
  transition: all 100ms linear;
 }
 
+.category h5{
+    font-size: 1.1rem;
+}
+
 #submit{
     position: fixed;
-    top: 10%;
-    right: 10%;
+    bottom: 2%;
+    right: 2%;
 }
 
 #submit i.fa{

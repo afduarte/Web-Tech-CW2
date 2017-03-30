@@ -5,7 +5,7 @@ const mysql = require('mysql');
 
 /* GET question listing. */
 router.get('/', function (req, res, next) {
-  if(!req.query.u || !validateMatric(req.query.u)) return res.status(400).send('INVALID MATRICULATION NUMBER');
+  if(!req.query.u || !validateMatric(req.query.u)) return res.status(400).render('identification');
   let connection = mysql.createConnection({
     host: 'localhost',
     user: '40211946',

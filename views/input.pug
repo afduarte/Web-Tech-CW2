@@ -5,10 +5,12 @@ block extrajs
     data=!{JSON.stringify({answers:data.answers,topAnswers:data.topAnswers})};
 
 block content
+  .row.expanded#title-row
+    .large-12.columns
+      h1#title.text-center
+        | Module Feedback Page
   .row
     .large-12.columns
-      h1.text-center
-        | Module Feedback Page
       p.callout.text-center.hello
         | Hello #{data.user.name}! Select a module, give feedback as appropriate and press submit to save the results.
         | The category sliders will change the values for the whole category, you can then change values individually for every question.

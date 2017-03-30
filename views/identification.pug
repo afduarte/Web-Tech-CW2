@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .row
+    .large-12.columns
+      h1#title.text-center
+        | Module Feedback Page
+      p.text-center.callout
+        | You need to specify a valid matriculation number
+      form(action="" method="GET")
+        label
+          | Your matriculation number
+          input#matric(name="u" type="text" placeholder="50200036")
+        button.button.large(type="submit") Submit
