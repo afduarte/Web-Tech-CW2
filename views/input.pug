@@ -14,8 +14,9 @@ block content
       p.callout.text-center.hello
         | Hello #{data.user.name}! Select a module, give feedback as appropriate and press submit to save the results.
         | The category sliders will change the values for the whole category, you can then change values individually for every question.
+        | Your previous answers have been loaded, to save new ones just press submit. All answers for all modules will be submitted!
       p.callout.text-center.nojs
-        | Javascript is disabled, the values in the sliders will change but the text will not!
+        | Javascript is disabled, the values in the sliders will change but the text will not! The scale is 1 to 5, Strongly Disagree to Strongly Agree
   #main-row.row
     .large-12.columns
       .row.expanded
@@ -30,17 +31,18 @@ block content
                     output= data.topAnswers[2]
         #q-container.large-12.small-12.columns  
           form(action="save" method="POST")
-            //- button.button(type="button" data-toggle=`expand-${code}`) Expand
-            //- .dropdown-pane(id=`expand-${code}`, data-dropdown, data-auto-focus="true")
-            each cat, code in data.questions
-              .q-list.row.large-up-3.medium-up-2.small-up-1.callout(id=`q-list-${code}`)
-                each q in cat.questions
-                  .column
-                    p.q-text #{q.code}: #{q.text}
-                    .range.range-primary.q-slider
-                      input.question(name=`${q.code}` type="range" step="1" value="3" min="1" max="5")
-                      //- By default the answer is neutral
-                      output= data.answers[2]
+            
+            each mod in data.modules
+              p.callout #{mod.MOD_NAME}
+              each cat, code in data.questions
+                .q-list.row.large-up-3.medium-up-2.small-up-1.callout(id=`q-list-${code}`)
+                  each q in cat.questions
+                    .column
+                      p.q-text #{q.code}: #{q.text}
+                      .range.range-primary.q-slider
+                        input.question(name=`${q.code}` type="range" step="1" value="3" min="1" max="5")
+                        //- By default the answer is neutral
+                        output= data.answers[2]
             
             button.button.large#submit(type="submit")
               i.fa.fa-floppy-o
