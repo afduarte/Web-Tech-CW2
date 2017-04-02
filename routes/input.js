@@ -57,7 +57,7 @@ WHERE CAM_SMO.SPR_CODE = '${req.query.u}';
       console.error(e);
     });
 
-    let mods = utils.query({ sql: mQuery }, connection)
+  let mods = utils.query({ sql: mQuery }, connection)
     .then(({ results, fields }) => {
       return results;
     }).catch((e) => {
@@ -75,7 +75,7 @@ WHERE CAM_SMO.SPR_CODE = '${req.query.u}';
           answers: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
           topAnswers: ["Very Bad", "Bad", "Neutral", "Good", "Very Good"],
           user: {
-            name: "Antero Duarte"
+            name: mod && mod[0] ? `${mod[0].SPR_FNM1} ${mod[0].SPR_SURN}` : 'Student not found!'
           }
         }
       });
@@ -101,18 +101,29 @@ router.post('/save', (req, res, next) => {
       PSL_CODE = VALUES(PSL_CODE), 
       QUE_CODE = VALUES(QUE_CODE), 
       RES_VALU = VALUES(RES_VALU);`
-  let answer = Object.keys(req.body.answers).map(i => ['50200036', 'INF08104', '2016/7', 'TR1', i, req.body[i]]);
-  // console.log(answer);
+  let user = req.body.user;
+  delete req.body.user;
+  let mod = req.body.module;
+  delete req.body.module;
+  let ayr = req.body.ayr;
+  delete req.body.ayr;
+  let psl = req.body.psl
+  delete req.body.psl;
+  let answer = Object.keys(req.body).map(i => [user, mod, ayr, psl, i, req.body[i]]);
 
-  // query = mysql.format(query, answer);
-  // console.log(query);
   return utils.query({ sql: query, params: [answer] }, connection)
     .then(({ results }) => {
       connection.end();
+      res.format({
+        html: function () {
+          return res.redirect('../cw2/?u=' + user);
+        },
 
-      res.setHeader('Content-Type', 'application/json');
-      return res.status(200).send({ message: 'OK' });
-
+        json: function () {
+          res.setHeader('Content-Type', 'application/json');
+          return res.status(200).send({ message: 'OK' });
+        }
+      });
     })
     .catch((e) => {
       connection.end();

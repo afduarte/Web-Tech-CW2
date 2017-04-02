@@ -15,13 +15,18 @@
 
 .category{
  transition: all 100ms linear;
+ cursor: pointer;
+}
+
+.main-row{
+    transition: all 500ms linear;
 }
 
 .category h5{
-    font-size: 1.1rem;
+    font-size: 1.05rem;
 }
 
-#submit{
+.submit-btn.fixed-submit{
     position: fixed;
     bottom: 2%;
     right: 2%;
@@ -40,7 +45,20 @@
     color: #FFF;
 }
 
+.button.mod-btn:not(.active):not(.success){
+    background-color: #fff;
+    color: #333;
+    border: 1px solid rgba(10, 10, 10, 0.25);
+}
 
+.button.mod-btn:not(.active):hover{
+    background-color: #2a5a7c;
+    color: #FEFEFE;
+}
+
+.button.mod-btn.success{
+    color: #FEFEFE;
+}
 /* SLIDERS START */
 .range {
     display: table;
