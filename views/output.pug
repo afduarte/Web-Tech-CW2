@@ -1,0 +1,27 @@
+extends layout
+
+block extrajs
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js")
+  script(src="http://code.jquery.com/ui/1.12.1/jquery-ui.js")
+  script(src='javascripts/output.js')
+
+block content
+  .row.expanded#title-row
+    .large-12.columns
+      h1#title.text-center
+        | Module Feedback Page - Results
+  .row.callout
+    .large-5.columns  
+      label
+        | Type a Module code
+        input.mod-code(name="code" type="text" placeholder="Module Code" data-toggle="mod-1")
+        ul#mod-1.dropdown-pane.autocomplete(data-dropdown="" data-dropdown-content="")
+    .large-2.columns#go-container
+      button.button.expand#get-results GO
+    .large-5.columns  
+      label
+        | Compare with
+        input.mod-code(name="code" type="text" placeholder="Module Code" data-toggle="mod-2")
+        ul#mod-2.dropdown-pane.autocomplete(data-dropdown="" data-dropdown-content="")
+  .row#output
+    .large-10.columns

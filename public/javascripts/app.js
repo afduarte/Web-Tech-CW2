@@ -89,6 +89,9 @@ $(function () {
     var selected = category.find('input');
     $('.q-list').hide('fast')
     $('.q-list#' + selected.attr('id')).show('fast');
+    $('html, body').animate({
+        scrollTop: $('.q-list#' + selected.attr('id')).offset().top
+    }, 500);
   }
 });
 
