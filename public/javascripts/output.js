@@ -138,8 +138,9 @@ $(function () {
     // Build the doughnut charts
     $('input.mod-code').each(function (i, item) {
       var $item = $(item);
-      // skip this one if the module code entered is not 8 char long
-      if (!$item.val().length == 8) return true;
+      // skip this one if the input field is empty, otherwise the server handles validation
+      // and we just display possible errors
+      if ($item.val().length == 0) return true;
 
       $.getJSON('percent?mod=' + $item.val())
         .done(function (data) {
