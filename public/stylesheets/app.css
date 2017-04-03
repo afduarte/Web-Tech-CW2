@@ -46,6 +46,11 @@
     color: #FFF;
 }
 
+.less-padding{
+    padding-bottom: 0.55em;
+    padding-top: 0.55em;
+}
+
 .button.mod-btn:not(.active):not(.success){
     background-color: #fff;
     color: #333;
@@ -83,6 +88,10 @@ ul.autocomplete{
 
 button#get-results{
     margin: 0 auto;
+}
+
+.chart{
+    min-height: 300px;
 }
 
 /* SLIDERS START */

@@ -44,6 +44,8 @@ FROM
 WHERE CAM_SMO.SPR_CODE = '${req.query.u}';
   `;
 
+  let prevQuery = `SELECT QUE_CODE, MOD_CODE, RES_VALU FROM INS_RES where SPR_CODE='${req.query.u}';`
+
   let cats = utils.query({ sql: qQuery }, connection)
     .then(({ results, fields }) => {
       let categories = {};
@@ -65,14 +67,28 @@ WHERE CAM_SMO.SPR_CODE = '${req.query.u}';
       console.error(e);
     });
 
-  return Promise.all([mods, cats])
-    .then(([mod, cat]) => {
+  let previous = utils.query({ sql: prevQuery }, connection)
+    .then(({ results, fields }) => {
+      let answers = {};
+      for (let row of results) {
+        answers[row.MOD_CODE] = answers[row.MOD_CODE] || {};
+        answers[row.MOD_CODE][row.QUE_CODE] = row.RES_VALU;
+      }
+      return answers;
+    }).catch((e) => {
+      return res.render('error', { error: e });
+      console.error(e);
+    });
+
+  return Promise.all([mods, cats, previous])
+    .then(([mod, cat, prev]) => {
       connection.end();
       return res.render('input', {
         data: {
           questions: cat,
           modules: mod,
-          answers: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
+          previous: prev,
+          answers: ["SD", "D", "N", "A", "SA"],
           topAnswers: ["Very Bad", "Bad", "Neutral", "Good", "Very Good"],
           user: {
             name: mod && mod[0] ? `${mod[0].SPR_FNM1} ${mod[0].SPR_SURN}` : 'Student not found!'

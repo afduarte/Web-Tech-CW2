@@ -93,6 +93,9 @@ $(function () {
         scrollTop: $('.q-list#' + selected.attr('id')).offset().top
     }, 500);
   }
+
+  // // Manually trigger the change event on all inputs so the labels update
+  // $('input').change();
 });
 
 function showQuestions($el) {

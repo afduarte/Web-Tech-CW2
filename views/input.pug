@@ -17,7 +17,11 @@ block content
         br
         | The category sliders will change the values for the whole category, you can then change values individually for every question.
         br
-        | Your previous answers have been loaded, to save new ones just press submit. All answers for the current module will be submitted!
+        | Your previous answers have been loaded, to save new ones just press submit. All answers for the current module will be submitted! 
+        br
+        | The category sliders do not reflect your previous choice, they are always neutral when you load the page.
+      p.callout.text-center.less-padding
+        | Legend: SD = Strongly Disagree D = Disagree N = Neither Agree nor Disagree A = Agree SA = Strongly Disagree
       p.callout.text-center.nojs
         | Javascript is disabled, the values in the sliders will change but the text will not! The scale is 1 to 5, Strongly Disagree to Strongly Agree
         br
@@ -27,7 +31,7 @@ block content
   .row#modules.hide
     each m in data.modules
       .large-4.small-12.columns
-        button.button.large.mod-btn(data-mod=`${m.MOD_CODE}`)
+        button.button.large.mod-btn.less-padding(data-mod=`${m.MOD_CODE}`)
           | #{m.MOD_CODE} - #{m.MOD_NAME}
 
   each m in data.modules
@@ -40,7 +44,7 @@ block content
       .main-row.row(data-mod=`${m.MOD_CODE}`)
         .large-12.columns
           .row.expanded
-            p.callout.mod-info.columns(data-mod=`${m.MOD_CODE}`)
+            p.callout.mod-info.columns.less-padding(data-mod=`${m.MOD_CODE}`)
               | #{m.MOD_CODE} - #{m.MOD_NAME}
               br
               | Lecturer: #{m.PRS_FNM1} #{m.PRS_SURN}
@@ -50,7 +54,7 @@ block content
 
             nav.cat-nav.large-3.large-offset-1.small-12.columns.hide(aria-hidden="true" data-mod=`${m.MOD_CODE}`)
               each cat, code in data.questions
-                .large-12.columns.callout.category
+                .large-12.columns.callout.category.less-padding
                   .column
                     h5.text-center #{code}: #{cat.name}
                     .range.range-primary.cat-slider
@@ -64,6 +68,12 @@ block content
                     .column
                       p.q-text #{q.code}: #{q.text}
                       .range.range-primary.q-slider
-                        input.question(name=`${q.code}` type="range" step="1" value="3" min="1" max="5")
-                        //- By default the answer is neutral
-                        output= data.answers[2]
+                        input.question(
+                          name=`${q.code}` 
+                          type="range" 
+                          step="1" 
+                          value=`${data.previous[m.MOD_CODE][q.code] || 3}` 
+                          min="1" 
+                          max="5")
+                        //- By default the answer is neutral, unless previously answered
+                        output= data.answers[(data.previous[m.MOD_CODE][q.code] || 3) - 1]

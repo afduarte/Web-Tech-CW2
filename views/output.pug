@@ -3,7 +3,10 @@ extends layout
 block extrajs
   script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js")
   script(src="http://code.jquery.com/ui/1.12.1/jquery-ui.js")
+  script(src='javascripts/utils.js')
   script(src='javascripts/output.js')
+  script.
+    globalData=!{JSON.stringify({questions: data.categories, mod1:data.mod1,mod2:data.mod2})};
 
 block content
   .row.expanded#title-row
@@ -11,17 +14,35 @@ block content
       h1#title.text-center
         | Module Feedback Page - Results
   .row.callout
+    .large-12.columns
+        p
+          | Type a module name or number and select one from the list.
+          br
+          | After selecting one or two modules, press GO to generate output for the selected modules
+  .row.callout
     .large-5.columns  
       label
         | Type a Module code
-        input.mod-code(name="code" type="text" placeholder="Module Code" data-toggle="mod-1")
+        input#mod-1-in.mod-code(name="code" type="text" placeholder="Module Code" data-toggle="mod-1")
         ul#mod-1.dropdown-pane.autocomplete(data-dropdown="" data-dropdown-content="")
     .large-2.columns#go-container
       button.button.expand#get-results GO
     .large-5.columns  
       label
         | Compare with
-        input.mod-code(name="code" type="text" placeholder="Module Code" data-toggle="mod-2")
+        input#mod-2-in.mod-code(name="code" type="text" placeholder="Module Code" data-toggle="mod-2")
         ul#mod-2.dropdown-pane.autocomplete(data-dropdown="" data-dropdown-content="")
   .row#output
-    .large-10.columns
+    .large-4.columns
+      h5.text-center.hide Average Score per question
+      #radar.chart
+    .large-4.columns
+      h5.text-center.hide Average Score per category
+      #bar.chart
+
+  if !data.mod1 && !data.mod2
+    .row#no-demo
+      .large-12.columns
+        p.callout.text-center
+          | Because there's no demo, I'll have to ask you to try 
+          a(href="output.html?mod1=INF08104&mod2=CSN08101") this
