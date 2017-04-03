@@ -54,3 +54,16 @@ UPDATE
   AYR_CODE = '2016/7' AND
   PSL_CODE = 'TR1' AND
   QUE_CODE = '1.1';
+
+-- Get average score per question per module
+-- To get average per module, remove QUE_CODE from group by and select
+SELECT QUE_CODE, MOD_CODE, AVG(RES_VALU) 
+FROM INS_RES 
+WHERE MOD_CODE IN ('CSN08101', 'SET09103') 
+GROUP BY QUE_CODE, MOD_CODE;
+
+-- Same as above but add min and max for each question
+SELECT QUE_CODE, MOD_CODE, AVG(RES_VALU), MIN(RES_VALU), MAX(RES_VALU) 
+FROM INS_RES 
+WHERE MOD_CODE IN ('CSN08101', 'SET09103') 
+GROUP BY MOD_CODE, QUE_CODE;
