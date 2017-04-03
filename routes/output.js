@@ -63,13 +63,15 @@ router.get('/autocomplete', (req, res, next) => {
 });
 
 router.get('/module', (req, res, next) => {
+  const modules = [req.query.mod1, req.query.mod2].filter(validateModCode);
+  if(!modules.length) return res.status(400).send({error:"Module validation failed"});
+
   let connection = mysql.createConnection({
     host: 'localhost',
     user: '40211946',
     password: 'dT1xT4mu',
     database: '40211946'
   });
-  const modules = [req.query.mod1, req.query.mod2].filter(validateModCode);
   let query = `
   SELECT QUE_CODE, MOD_CODE, AVG(RES_VALU) AS VAL
   FROM INS_RES 
@@ -92,13 +94,14 @@ router.get('/module', (req, res, next) => {
     })
 });
 router.get('/category', (req, res, next) => {
+  const modules = [req.query.mod1, req.query.mod2].filter(validateModCode);
+  if(!modules.length) return res.status(400).send({error:"Module validation failed"});
   let connection = mysql.createConnection({
     host: 'localhost',
     user: '40211946',
     password: 'dT1xT4mu',
     database: '40211946'
   });
-  const modules = [req.query.mod1, req.query.mod2].filter(validateModCode);
   let query = `
   SELECT INS_CAT.CAT_CODE, INS_CAT.CAT_NAME, MOD_CODE, AVG(RES_VALU) AS VAL 
   FROM INS_RES 
@@ -116,6 +119,39 @@ router.get('/category', (req, res, next) => {
         modules[i.MOD_CODE].push({ value: i.VAL, c: i.CAT_CODE, cName:i.CAT_NAME })
       });
       return res.status(200).send(modules);
+    }).catch(e => {
+      console.error(e);
+      connection.end();
+      return res.send({ error: "Query Failed" });
+    })
+});
+
+router.get('/percent', (req, res, next) => {
+  if(!validateModCode(req.query.mod)) return res.status(400).send({error:`Module validation failed: ${req.query.mod}`});
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: '40211946',
+    password: 'dT1xT4mu',
+    database: '40211946'
+  });
+  let query = `
+  SELECT INS_MOD.MOD_CODE, MOD_NAME, 100*AVG(CASE WHEN  RES_VALU >= 4 THEN 1 ELSE 0 END) AS VALUE
+  FROM INS_RES 
+  JOIN INS_MOD ON INS_MOD.MOD_CODE=INS_RES.MOD_CODE
+  WHERE INS_RES.MOD_CODE='${req.query.mod}'
+  GROUP BY MOD_CODE, MOD_NAME;
+  `
+  return utils.query({ sql: query }, connection)
+    .then(({ results, fields }) => {
+      connection.end();
+      if(!results || !results.length) return res.status(400).send({error:`Module validation failed: ${req.query.mod}`});
+      let over4 = parseFloat(results[0].VALUE);
+      return res.status(200).send({
+        mod:results[0].MOD_CODE,
+        over:over4,
+        under: 100-over4,
+        modName: results[0].MOD_NAME
+      });
     }).catch(e => {
       console.error(e);
       connection.end();

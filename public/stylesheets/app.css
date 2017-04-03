@@ -91,7 +91,18 @@ button#get-results{
 }
 
 .chart{
-    min-height: 300px;
+    /*min-height: 300px;*/
+}
+
+div#error-alert.danger {
+    position: fixed;
+    top: 10%;
+    left: 5%;
+    width: 90%;
+    background-color: rgba(255, 100, 100, 0.9);
+    font-weight: 600;
+    font-size: 1.3em;
+    color: #333;
 }
 
 /* SLIDERS START */
