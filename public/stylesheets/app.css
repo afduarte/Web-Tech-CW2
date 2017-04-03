@@ -1,0 +1,261 @@
+#title{
+    font-size: 2rem;
+    background-color: #d10039;
+    line-height: 4.5rem;
+    color: #FFF; 
+}
+#title-row div{
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.hide{
+    display: none;
+}
+
+.category{
+ transition: all 100ms linear;
+ cursor: pointer;
+}
+
+.main-row{
+    transition: all 500ms linear;
+}
+
+.category h5{
+    font-size: 1.05rem;
+}
+
+.submit-btn.fixed-submit{
+    position: fixed;
+    bottom: 2%;
+    right: 2%;
+    z-index: 9999;
+}
+
+#submit i.fa{
+    padding-right: 10px;
+}
+
+#submit.success, #submit.alert{
+    color: #fff;
+}
+
+.category.active{
+    background-color: #5B84A1;
+    color: #FFF;
+}
+
+.less-padding{
+    padding-bottom: 0.55em;
+    padding-top: 0.55em;
+}
+
+.button.mod-btn:not(.active):not(.success){
+    background-color: #fff;
+    color: #333;
+    border: 1px solid rgba(10, 10, 10, 0.25);
+}
+
+.button.mod-btn:not(.active):hover{
+    background-color: #2a5a7c;
+    color: #FEFEFE;
+}
+
+.button.mod-btn.success{
+    color: #FEFEFE;
+}
+
+.autocomplete-item{
+    text-align: center;
+    list-style: none;
+    font-size: 0.9rem;
+    border-bottom: 2px solid #d10039
+}
+
+li.autocomplete-item:hover {
+    background-color: #eee;
+}
+ul.autocomplete{
+    padding: 5px;
+}
+
+#go-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+button#get-results{
+    margin: 0 auto;
+}
+
+.chart{
+    /*min-height: 300px;*/
+}
+
+div#error-alert.danger {
+    position: fixed;
+    top: 10%;
+    left: 5%;
+    width: 90%;
+    background-color: rgba(255, 100, 100, 0.9);
+    font-weight: 600;
+    font-size: 1.3em;
+    color: #333;
+}
+
+/* SLIDERS START */
+.range {
+    display: table;
+    position: relative;
+    height: 25px;
+    background-color: rgb(245, 245, 245);
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin: 5px auto;
+}
+
+.range input[type="range"] {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    -ms-appearance: none !important;
+    -o-appearance: none !important;
+    appearance: none !important;
+
+    display: table-cell;
+    width: 150px;
+    background-color: transparent;
+    height: 25px;
+    cursor: pointer;
+}
+.range input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    -ms-appearance: none !important;
+    -o-appearance: none !important;
+    appearance: none !important;
+
+    width: 11px;
+    height: 25px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0px;
+    background-color: rgb(153, 153, 153);
+}
+
+.range input[type="range"]::-moz-slider-thumb {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    -ms-appearance: none !important;
+    -o-appearance: none !important;
+    appearance: none !important;
+
+    width: 11px;
+    height: 25px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0px;
+    background-color: rgb(153, 153, 153);
+}
+
+.range output {
+    line-height:1;
+    display: table-cell;
+    padding: 3px 5px 2px;
+    min-width: 40px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(153, 153, 153);
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    width: 140px;
+    white-space: nowrap;
+    vertical-align: middle;
+
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    user-select: none;
+}
+.range input[type="range"] {
+    outline: none;
+}
+
+.range.range-primary input[type="range"]::-webkit-slider-thumb {
+    background-color: rgb(86, 159, 222);
+}
+.range.range-primary input[type="range"]::-moz-slider-thumb {
+    background-color: rgb(86, 159, 222);
+}
+.range.range-primary output {
+    background-color: #333;
+}
+.range.range-primary input[type="range"] {
+    outline-color: rgb(86, 159, 222);
+}
+
+.range.range-success input[type="range"]::-webkit-slider-thumb {
+    background-color: rgb(92, 184, 92);
+}
+.range.range-success input[type="range"]::-moz-slider-thumb {
+    background-color: rgb(92, 184, 92);
+}
+.range.range-success output {
+    background-color: rgb(92, 184, 92);
+}
+.range.range-success input[type="range"] {
+    outline-color: rgb(92, 184, 92);
+}
+
+.range.range-info input[type="range"]::-webkit-slider-thumb {
+    background-color: rgb(91, 192, 222);
+}
+.range.range-info input[type="range"]::-moz-slider-thumb {
+    background-color: rgb(91, 192, 222);
+}
+.range.range-info output {
+    background-color: rgb(91, 192, 222);
+}
+.range.range-info input[type="range"] {
+    outline-color: rgb(91, 192, 222);
+}
+
+.range.range-warning input[type="range"]::-webkit-slider-thumb {
+    background-color: rgb(240, 173, 78);
+}
+.range.range-warning input[type="range"]::-moz-slider-thumb {
+    background-color: rgb(240, 173, 78);
+}
+.range.range-warning output {
+    background-color: rgb(240, 173, 78);
+}
+.range.range-warning input[type="range"] {
+    outline-color: rgb(240, 173, 78);
+}
+
+.range.range-danger input[type="range"]::-webkit-slider-thumb {
+    background-color: rgb(217, 83, 79);
+}
+.range.range-danger input[type="range"]::-moz-slider-thumb {
+    background-color: rgb(217, 83, 79);
+}
+.range.range-danger output {
+    background-color: rgb(217, 83, 79);
+}
+/* SLIDERS END */

@@ -1,0 +1,79 @@
+extends layout
+
+block extrajs
+  script(src='javascripts/app.js')
+  script.
+    data=!{JSON.stringify({answers:data.answers,topAnswers:data.topAnswers})};
+
+block content
+  .row.expanded#title-row
+    .large-12.columns
+      h1#title.text-center
+        | Module Feedback Page
+  .row
+    .large-12.columns
+      p.callout.text-center.hello
+        | Hello #{data.user.name}! Select a module, give feedback as appropriate and press submit to save the results.
+        br
+        | The category sliders will change the values for the whole category, you can then change values individually for every question.
+        br
+        | Your previous answers have been loaded, to save new ones just press submit. All answers for the current module will be submitted! 
+        br
+        | The category sliders do not reflect your previous choice, they are always neutral when you load the page.
+      p.callout.text-center.less-padding
+        | Legend: SD = Strongly Disagree D = Disagree N = Neither Agree nor Disagree A = Agree SA = Strongly Disagree
+      p.callout.text-center.nojs
+        | Javascript is disabled, the values in the sliders will change but the text will not! The scale is 1 to 5, Strongly Disagree to Strongly Agree
+        br
+        | When you click submit you will submit all the questions directly below the module description, 
+        | if you want to give feedback to all modules, you will have to submit the page on all buttons, 
+        | sorry for the inconvenience.
+  .row#modules.hide
+    each m in data.modules
+      .large-4.small-12.columns
+        button.button.large.mod-btn.less-padding(data-mod=`${m.MOD_CODE}`)
+          | #{m.MOD_CODE} - #{m.MOD_NAME}
+
+  each m in data.modules
+    form(action="save" method="POST" data-mod=`${m.MOD_CODE}`)
+      input(type="hidden" name="module" value=`${m.MOD_CODE}`)
+      input(type="hidden" name="user" value=`${m.SPR_CODE}`)
+      input(type="hidden" name="ayr" value=`${m.AYR_CODE}`)
+      input(type="hidden" name="psl" value=`${m.PSL_CODE}`)
+
+      .main-row.row(data-mod=`${m.MOD_CODE}`)
+        .large-12.columns
+          .row.expanded
+            p.callout.mod-info.columns.less-padding(data-mod=`${m.MOD_CODE}`)
+              | #{m.MOD_CODE} - #{m.MOD_NAME}
+              br
+              | Lecturer: #{m.PRS_FNM1} #{m.PRS_SURN}
+            button.button.large.submit-btn(type="submit")
+              i.fa.fa-floppy-o
+              span Submit
+
+            nav.cat-nav.large-3.large-offset-1.small-12.columns.hide(aria-hidden="true" data-mod=`${m.MOD_CODE}`)
+              each cat, code in data.questions
+                .large-12.columns.callout.category.less-padding
+                  .column
+                    h5.text-center #{code}: #{cat.name}
+                    .range.range-primary.cat-slider
+                        input.question(id=`q-list-${code}`,type="range" step="1" value="3" min="1" max="5")
+                        //- By default the answer is neutral
+                        output= data.topAnswers[2]
+            .q-container.large-12.small-12.columns  
+              each cat, code in data.questions
+                .q-list.row.large-up-3.medium-up-2.small-up-1.callout(id=`q-list-${code}` data-mod=`${m.MOD_CODE}`)
+                  each q in cat.questions
+                    .column
+                      p.q-text #{q.code}: #{q.text}
+                      .range.range-primary.q-slider
+                        input.question(
+                          name=`${q.code}` 
+                          type="range" 
+                          step="1" 
+                          value=`${data.previous[m.MOD_CODE][q.code] || 3}` 
+                          min="1" 
+                          max="5")
+                        //- By default the answer is neutral, unless previously answered
+                        output= data.answers[(data.previous[m.MOD_CODE][q.code] || 3) - 1]

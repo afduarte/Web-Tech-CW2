@@ -1,0 +1,65 @@
+extends layout
+
+block extrajs
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js")
+  script(src="http://code.jquery.com/ui/1.12.1/jquery-ui.js")
+  script(src='javascripts/utils.js')
+  script(src='javascripts/output.js')
+  script.
+    globalData=!{JSON.stringify({questions: data.categories, mod1:data.mod1,mod2:data.mod2})};
+
+block content
+  .row.expanded#title-row
+    .large-12.columns
+      h1#title.text-center
+        | Module Feedback Page - Results
+  .row.callout.less-padding
+    .large-12.columns
+        p.text-center
+          | Type a module name or code and select one from the list.
+          br
+          | After selecting one or two modules, press GO to generate output for the selected modules.
+          br
+          | The chart colours are randomly generated, so reload the page if they hurt your eyes.
+          | On every chart, you can click on any item in the legend to hide if from the output. 
+          br
+          | This can be useful when you are comparing two modules and they are too close together on the Radar chart for example
+  .row.callout
+    .large-5.columns  
+      label
+        | Type a Module code
+        input#mod-1-in.mod-code(name="code" type="text" placeholder="Module Code" data-toggle="mod-1")
+        ul#mod-1.dropdown-pane.autocomplete(data-dropdown="" data-dropdown-content="")
+    .large-2.columns#go-container
+      button.button.expand#get-results GO
+    .large-5.columns  
+      label
+        | Compare with
+        input#mod-2-in.mod-code(name="code" type="text" placeholder="Module Code" data-toggle="mod-2")
+        ul#mod-2.dropdown-pane.autocomplete(data-dropdown="" data-dropdown-content="")
+  .row
+    .large-8.columns
+      h5.text-center.hide Percentage above/below 4
+      .row.expanded
+        .large-6.columns
+          h5.text-center.hide
+          #mod1-doughnut.chart
+        .large-6.columns
+          h5.text-center.hide
+          #mod2-doughnut.chart
+    .large-4.columns
+      h5.text-center.hide Average Score per question
+      #radar.chart
+  .row
+    .large-12.columns
+      h5.text-center.hide Average Score per category
+      #bar.chart
+
+  if !data.mod1 && !data.mod2
+    .row#no-demo
+      .large-12.columns
+        p.callout.text-center
+          | Note: You can also load the page with query parameters mod1 and mod2 to immediately load a comparison, like 
+          a(href="output.html?mod1=INF08104&mod2=CSN08101") this.
+          br
+          | Although the Module names are not shown since these are fetched by the autocomplete
