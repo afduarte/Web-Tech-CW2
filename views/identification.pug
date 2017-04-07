@@ -5,6 +5,8 @@ block content
     .large-12.columns
       h1#title.text-center
         | Module Feedback Page
+      if message
+        p.text-center.callout= message
       p.text-center.callout
         | You need to specify a valid matriculation number
       form(action="" method="GET")

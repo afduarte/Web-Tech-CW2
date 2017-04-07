@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // view engine setup
+// Will be using the Pug templating engine and all the .pug files will be in the views directory
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -18,7 +19,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/cw2',express.static(path.join(__dirname, 'public')));
 
-// app.use('/', routes);
 app.use('/cw2', require('./routes/input'));
 app.use('/cw2', require('./routes/output'));
 

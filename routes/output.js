@@ -24,6 +24,7 @@ router.get('/output.html', (req, res, next) => {
         categories[row.CAT_CODE].questions.push({ code: row.QUE_CODE, name: row.QUE_NAME, text: row.QUE_TEXT })
       }
       return res.render('output', {
+        title: "Module Feedback Results - Edinburgh Napier University",
         data: {
           categories: results,
           mod1: req.query.mod1,

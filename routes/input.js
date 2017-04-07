@@ -5,7 +5,7 @@ const mysql = require('mysql');
 
 /* GET question listing. */
 router.get('/', function (req, res, next) {
-  if (!req.query.u || !validateMatric(req.query.u)) return res.status(400).render('identification');
+  if (!req.query.u || !validateMatric(req.query.u)) return res.status(400).render('identification', { title: "Student Module Feedback - Edinburgh Napier University"});
   let connection = mysql.createConnection({
     host: 'localhost',
     user: '40211946',
@@ -55,7 +55,7 @@ WHERE CAM_SMO.SPR_CODE = '${req.query.u}';
       }
       return categories;
     }).catch((e) => {
-      return res.render('error', { error: e });
+      return res.render('error', { error: e, title: "Error - Edinburgh Napier University" });
       console.error(e);
     });
 
@@ -63,7 +63,7 @@ WHERE CAM_SMO.SPR_CODE = '${req.query.u}';
     .then(({ results, fields }) => {
       return results;
     }).catch((e) => {
-      return res.render('error', { error: e });
+      return res.render('error', { error: e, title: "Error - Edinburgh Napier University" });
       console.error(e);
     });
 
@@ -83,7 +83,9 @@ WHERE CAM_SMO.SPR_CODE = '${req.query.u}';
   return Promise.all([mods, cats, previous])
     .then(([mod, cat, prev]) => {
       connection.end();
+      if(!mod || !mod[0] || !(mod[0].SPR_FNM1 && mod[0].SPR_SURN)) return res.status(400).render('identification', { title: "Student Module Feedback - Edinburgh Napier University", message: "Student not found"});
       return res.render('input', {
+        title: "Student Module Feedback - Edinburgh Napier University",
         data: {
           questions: cat,
           modules: mod,
